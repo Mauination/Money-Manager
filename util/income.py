@@ -1,7 +1,7 @@
 import sqlite3
 
 def create_connection():
-    conn = None
+    conn = None;
     try:
         conn = sqlite3.connect('money.db') # creates a database in memory
         return conn
@@ -18,7 +18,8 @@ def create_table(conn):
                     frequency TEXT,
                     previous_payment TEXT,
                     next_payment TEXT,
-                    current_payment TEXT
+                    current_payment TEXT,
+                    income_type TEXT
                 );'''
         c = conn.cursor()
         c.execute(sql)
@@ -26,13 +27,13 @@ def create_table(conn):
         print(e)
 
 def add_income(conn, income):
-    sql = '''INSERT INTO income(income_name, account, amount, frequency, previous_payment, next_payment, current_payment) VALUES(?,?,?,?,?,?,?)'''
+    sql = '''INSERT INTO income(income_name, account, amount, frequency, previous_payment, next_payment, current_payment, income_type) VALUES(?,?,?,?,?,?,?,?)'''
     cur = conn.cursor()
     cur.execute(sql, income)
     return cur.lastrowid
 
 def edit_income(conn, income):
-    sql = '''UPDATE income SET income_name = ?, account = ?, amount = ?, frequency = ?, previous_payment = ?, next_payment = ?, current_payment = ? WHERE id = ?'''
+    sql = '''UPDATE income SET income_name = ?, account = ?, amount = ?, frequency = ?, previous_payment = ?, next_payment = ?, current_payment = ?, income_type = ? WHERE id = ?'''
     cur = conn.cursor()
     cur.execute(sql, income)
     return cur.rowcount
