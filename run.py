@@ -119,7 +119,10 @@ def manage_expenses(conn):
     print("1. Add expenses")
     print("2. Edit expenses")
     print("3. Remove expenses")
-    print("4. Back to manage menu")
+    print("4. Calculate yearly expenses")
+    print("5. Calculate next expense date")
+    print("6. Update expense dates")
+    print("7. Back to manage menu")
 
     choice = input("Enter your choice: ")
 
@@ -141,10 +144,21 @@ def manage_expenses(conn):
         expense_name = input("Enter expense name: ")
         expenses.delete_expense(conn, expense_name)
     elif choice == "4":
+        print("Yearly expenses:", money.calculate_yearly_expenses(conn))
+    elif choice == "5":
+        last_expense_date = input("Enter last expense date (YYYY-MM-DD): ")
+        frequency = input("Enter frequency (weekly, biweekly, monthly): ")
+        print("Next expense date:", money.calculate_next_expense_date(last_expense_date, frequency))
+    elif choice == "6":
+        previous_date = input("Enter previous date (YYYY-MM-DD): ")
+        current_date = input("Enter current date (YYYY-MM-DD): ")
+        next_date = input("Enter next date (YYYY-MM-DD): ")
+        money.update_expense_dates(conn, previous_date, current_date, next_date)
+        print("Expense dates updated successfully!")
+    elif choice == "7":
         return
     else:
         print("Invalid choice. Please try again.")
-
 def handle_manage(conn):
     while True:
         display_manage_menu()

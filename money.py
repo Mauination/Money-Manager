@@ -114,19 +114,19 @@ def update_pay_dates(conn, account_id, previous_date, current_date, next_date):
     cur.execute(sql, (previous_date, current_date, next_date, account_id))
     conn.commit()
 
-def calculate_biweekly_expenses(conn, account_id):
+def calculate_biweekly_expenses(conn):
     cur = conn.cursor()
-    cur.execute("SELECT SUM(amount) FROM expenses WHERE account_id = ? AND date >= date('now', '-14 days')", (account_id,))
+    cur.execute("SELECT SUM(amount) FROM expenses")
     return cur.fetchone()[0] or 0  # Return the sum or 0 if the sum is None
 
-def calculate_monthly_expenses(conn, account_id):
+def calculate_monthly_expenses(conn):
     cur = conn.cursor()
-    cur.execute("SELECT SUM(amount) FROM expenses WHERE account_id = ? AND date >= date('now', '-30 days')", (account_id,))
+    cur.execute("SELECT SUM(amount) FROM expenses")
     return cur.fetchone()[0] or 0  # Return the sum or 0 if the sum is None
 
-def calculate_yearly_expenses(conn, account_id):
+def calculate_yearly_expenses(conn):
     cur = conn.cursor()
-    cur.execute("SELECT SUM(amount) FROM expenses WHERE account_id = ? AND date >= date('now', '-365 days')", (account_id,))
+    cur.execute("SELECT SUM(amount) FROM expenses")
     return cur.fetchone()[0] or 0  # Return the sum or 0 if the sum is None
 
 def calculate_next_expense_date(last_expense_date, frequency):
