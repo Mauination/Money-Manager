@@ -22,6 +22,7 @@ def create_table(conn):
                 );'''
         c = conn.cursor()
         c.execute(sql)
+        conn.commit()
     except sqlite3.Error as e:
         print(e)
 
@@ -29,18 +30,21 @@ def add_transaction(conn, transaction):
     sql = '''INSERT INTO transactions(transaction_name, account, amount, category, tag, date, notes) VALUES(?,?,?,?,?,?,?)'''
     cur = conn.cursor()
     cur.execute(sql, transaction)
+    conn.commit()
     return cur.lastrowid
 
 def edit_transaction(conn, transaction):
     sql = '''UPDATE transactions SET transaction_name = ?, account = ?, amount = ?, category = ?, tag = ?, date = ?, notes = ? WHERE id = ?'''
     cur = conn.cursor()
     cur.execute(sql, transaction)
+    conn.commit()
     return cur.rowcount
 
 def delete_transaction(conn, id):
     sql = 'DELETE FROM transactions WHERE id=?'
     cur = conn.cursor()
     cur.execute(sql, (id,))
+    conn.commit()
     return cur.rowcount
 
 def main():

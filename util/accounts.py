@@ -23,6 +23,7 @@ def create_table(conn):
                 );'''
         c = conn.cursor()
         c.execute(sql)
+        conn.commit()
     except sqlite3.Error as e:
         print(e)
 
@@ -30,18 +31,21 @@ def add_account(conn, account):
     sql = '''INSERT INTO accounts(account_name, account_type, account_id, card_id, account_balance, account_fee, fee_frequency, account_status) VALUES(?,?,?,?,?,?,?,?)'''
     cur = conn.cursor()
     cur.execute(sql, account)
+    conn.commit()
     return cur.lastrowid
 
 def edit_account(conn, account):
-    sql = '''UPDATE accounts SET account_name = ?, account_type = ?, card_id = ?, account_balance = ?, account_fee = ?, fee_frequency = ?, account_status = ? WHERE account_id = ?'''
+    sql = '''UPDATE accounts SET account_name = ?, account_type = ?, account_id = ?, card_id = ?, account_balance = ?, account_fee = ?, fee_frequency = ?, account_status = ? WHERE account_name = ?'''
     cur = conn.cursor()
     cur.execute(sql, account)
+    conn.commit()
     return cur.rowcount
 
-def delete_account(conn, id):
-    sql = 'DELETE FROM accounts WHERE id=?'
+def delete_account(conn, account):
+    sql = 'DELETE FROM accounts WHERE account_name=?'
     cur = conn.cursor()
-    cur.execute(sql, (id,))
+    cur.execute(sql, (account,))
+    conn.commit()
     return cur.rowcount
 
 def main():

@@ -37,22 +37,42 @@ def get_total_income(conn):
 
 def search_accounts(conn, account_name):
     cur = conn.cursor()
-    cur.execute("SELECT * FROM accounts WHERE account_name=?", (account_name,))
+    cur.execute("SELECT * FROM accounts WHERE account_name=?", (account_name))
     return cur.fetchall()
 
 def search_transaction(conn, transaction_name):
     cur = conn.cursor()
-    cur.execute("SELECT * FROM transactions WHERE transaction_name=?", (transaction_name,))
+    cur.execute("SELECT * FROM transactions WHERE transaction_name=?", (transaction_name))
     return cur.fetchall()
 
 def search_expense(conn, expense_name):
     cur = conn.cursor()
-    cur.execute("SELECT * FROM expenses WHERE expense_name=?", (expense_name,))
+    cur.execute("SELECT * FROM expenses WHERE expense_name=?", (expense_name))
     return cur.fetchall()
 
 def search_income(conn, income_name):
     cur = conn.cursor()
-    cur.execute("SELECT * FROM income WHERE income_name=?", (income_name,))
+    cur.execute("SELECT * FROM income WHERE income_name=?", (income_name))
+    return cur.fetchall()
+
+def search_all_accounts(conn):
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM accounts")
+    return cur.fetchall()
+
+def search_all_transactions(conn):
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM transactions")
+    return cur.fetchall()
+
+def search_all_expenses(conn):
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM expenses")
+    return cur.fetchall()
+
+def search_all_income(conn):
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM income")
     return cur.fetchall()
 
 def main():
