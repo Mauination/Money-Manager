@@ -22,7 +22,7 @@ def create_connection():
 
 def get_total_balance(conn):
     cur = conn.cursor()
-    cur.execute("SELECT SUM(amount) FROM accounts")
+    cur.execute("SELECT SUM(account_balance) FROM accounts")
     return cur.fetchone()[0]
 
 def get_total_expenses(conn):
