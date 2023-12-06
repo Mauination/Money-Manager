@@ -102,6 +102,7 @@ def manage_income(conn):
         previous_payment = input("Enter previous payment: ")
         next_payment = input("Enter next payment: ")
         current_payment = input("Enter current payment: ")
+        income_type = input("Enter income type: ")
         income = (income_name, account, amount, frequency, previous_payment, next_payment, current_payment, income_type)
         income.add_income(conn, income)
     elif choice == "2":
