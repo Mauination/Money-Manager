@@ -66,11 +66,21 @@ def manage_transactions(conn):
     choice = input("Enter your choice: ")
 
     if choice == "1":
-        transactions.add_transaction(conn)
+        transaction_name = input("Enter transaction name: ")
+        account = input("Enter account: ")
+        amount = input("Enter amount: ")
+        category = input("Enter category: ")
+        tag = input("Enter tag: ")
+        date = input("Enter date: ")
+        notes = input("Enter notes: ")
+        transaction = (transaction_name, account, amount, category, tag, date, notes)
+        transactions.add_transaction(conn, transaction)
     elif choice == "2":
-        transactions.edit_transaction(conn)
+        transaction_name = input("Enter transaction name: ")
+        transactions.edit_transaction(conn, transaction_name)
     elif choice == "3":
-        transactions.delete_transaction(conn)
+        transaction_name = input("Enter transaction name: ")
+        transactions.delete_transaction(conn, transaction_name)
     elif choice == "4":
         return
     else:
@@ -85,11 +95,21 @@ def manage_income(conn):
     choice = input("Enter your choice: ")
 
     if choice == "1":
-        income.add_income(conn)
+        income_name = input("Enter income name: ")
+        account = input("Enter account: ")
+        amount = input("Enter amount: ")
+        frequency = input("Enter frequency: ")
+        previous_payment = input("Enter previous payment: ")
+        next_payment = input("Enter next payment: ")
+        current_payment = input("Enter current payment: ")
+        income = (income_name, account, amount, frequency, previous_payment, next_payment, current_payment, income_type)
+        income.add_income(conn, income)
     elif choice == "2":
-        income.edit_income(conn)
+        income_name = input("Enter income name: ")
+        income.edit_income(conn, income_name)
     elif choice == "3":
-        income.delete_income(conn)
+        income_name = input("Enter income name: ")
+        income.delete_income(conn, income_name)
     elif choice == "4":
         return
     else:
@@ -104,11 +124,22 @@ def manage_expenses(conn):
     choice = input("Enter your choice: ")
 
     if choice == "1":
-        expenses.add_expense(conn)
+        expense_name = input("Enter expense name: ")
+        account = input("Enter account: ")
+        amount = input("Enter amount: ")
+        frequency = input("Enter frequency: ")
+        paid_status = input("Enter paid status: ")
+        previous_payment = input("Enter previous payment: ")
+        next_payment = input("Enter next payment: ")
+        current_payment = input("Enter current payment: ")
+        expense = (expense_name, account, amount, frequency, paid_status, previous_payment, next_payment, current_payment)
+        expenses.add_expense(conn, expense)
     elif choice == "2":
-        expenses.edit_expense(conn)
+        expense_name = input("Enter expense name: ")
+        expenses.edit_expense(conn, expense_name)
     elif choice == "3":
-        expenses.delete_expense(conn)
+        expense_name = input("Enter expense name: ")
+        expenses.delete_expense(conn, expense_name)
     elif choice == "4":
         return
     else:
