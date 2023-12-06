@@ -1,9 +1,3 @@
-# needs to import files from util/ (account.py, transaction.py, expense.py, income.py)
-# needs to create general functions to do math with the various data and functions from the files in util/ (e.g. get total balance, get total expenses, get total income, etc.)
-# needs to create a main function that will run the program
-# needs a search function related to each of the given database tables (e.g. search for a specific account, search for a specific transaction, etc.)(accounts table, transactions table, expenses table, income table in the money.db)
-# needs to connect functionality of all the files in util/ to the main function
-# this should all be backend data processing and manipulation front end will be done in a separate file (e.g. run.py)
 import sqlite3
 from util import accounts, transactions, expenses, income
 
@@ -74,6 +68,37 @@ def search_all_income(conn):
     cur = conn.cursor()
     cur.execute("SELECT * FROM income")
     return cur.fetchall()
+
+def calculate_monthly_pay(rate, frequency):
+    # Implementation here
+
+def calculate_annual_pay(rate, frequency):
+    # Implementation here
+
+def calculate_next_pay_date(last_pay_date, frequency):
+    # Implementation here
+
+def update_pay_dates(account_id, previous_date, current_date, next_date):
+    # Implementation here
+
+def calculate_biweekly_expenses(account_id):
+    # Implementation here
+
+def calculate_monthly_expenses(account_id):
+    # Implementation here
+
+def calculate_yearly_expenses(account_id):
+    # Implementation here
+
+def calculate_next_expense_date(last_expense_date, frequency):
+    # Implementation here
+
+def update_expense_dates(account_id, previous_date, current_date, next_date):
+    # Implementation here
+
+def sort_transactions(field):
+    # Implementation here
+
 
 def main():
     database = r"money.db"
