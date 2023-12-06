@@ -5,16 +5,20 @@
 # needs to connect functionality of all the files in util/ to the main function
 # this should all be backend data processing and manipulation front end will be done in a separate file (e.g. run.py)
 import sqlite3
-import sqlite3
 from util import accounts, transactions, expenses, income
 
 def create_connection():
     conn = None
     try:
-        conn = sqlite3.connect('money.db') # creates a database in memory
-        return conn
+        conn = sqlite3.connect('money.db')  # creates a database in memory
     except sqlite3.Error as e:
         print(e)
+    finally:
+        if conn:
+            return conn
+        else:
+            print("ERROR! cannot create the database connection.")
+            return None
 
 def get_total_balance(conn):
     cur = conn.cursor()
@@ -59,10 +63,13 @@ def main():
 
     if conn is not None:
         # create tables
-        accounts.create_table(conn)
-        transactions.create_table(conn)
-        expenses.create_table(conn)
-        income.create_table(conn)
+        try:
+            accounts.create_table(conn)
+            transactions.create_table(conn)
+            expenses.create_table(conn)
+            income.create_table(conn)
+        except Exception as e:
+            print("Error while creating tables:", e)
     else:
         print("Error! cannot create the database connection.")
 
