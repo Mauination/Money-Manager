@@ -1,5 +1,6 @@
 import sqlite3
 from util import accounts, transactions, expenses, income
+import datetime
 
 def create_connection():
     conn = None
@@ -70,35 +71,88 @@ def search_all_income(conn):
     return cur.fetchall()
 
 def calculate_monthly_pay(rate, frequency):
-    # Implementation here
-
+    if frequency == "weekly":
+        return rate * 4  # Approximate a month as 4 weeks
+    elif frequency == "biweekly":
+        return rate * 2  # Two biweekly periods in a month
+    elif frequency == "monthly":
+        return rate  # Already a monthly rate
+    elif frequency == "yearly":
+        return rate / 12  # Divide the yearly rate by 12 to get the monthly rate
+    else:
+        raise ValueError("Invalid frequency. Expected 'weekly', 'biweekly', 'monthly', or 'yearly'.")
+    
 def calculate_annual_pay(rate, frequency):
-    # Implementation here
+    if frequency == "weekly":
+        return rate * 52  # There are 52 weeks in a year
+    elif frequency == "biweekly":
+        return rate * 26  # There are 26 biweekly periods in a year
+    elif frequency == "monthly":
+        return rate * 12  # There are 12 months in a year
+    elif frequency == "yearly":
+        return rate  # Already a yearly rate
+    else:
+        raise ValueError("Invalid frequency. Expected 'weekly', 'biweekly', 'monthly', or 'yearly'.")
 
 def calculate_next_pay_date(last_pay_date, frequency):
-    # Implementation here
+    if frequency == "weekly":
+        return last_pay_date + datetime.timedelta(weeks=1)
+    elif frequency == "biweekly":
+        return last_pay_date + datetime.timedelta(weeks=2)
+    elif frequency == "monthly":
+        return last_pay_date + datetime.timedelta(days=30)  # Approximate a month as 30 days
+    else:
+        raise ValueError("Invalid frequency. Expected 'weekly', 'biweekly', or 'monthly'.")
 
-def update_pay_dates(account_id, previous_date, current_date, next_date):
-    # Implementation here
+def update_pay_dates(conn, account_id, previous_date, current_date, next_date):
+    sql = ''' UPDATE accounts
+              SET previous_pay_date = ?,
+                  current_pay_date = ?,
+                  next_pay_date = ?
+              WHERE account_id = ?'''
+    cur = conn.cursor()
+    cur.execute(sql, (previous_date, current_date, next_date, account_id))
+    conn.commit()
 
-def calculate_biweekly_expenses(account_id):
-    # Implementation here
+def calculate_biweekly_expenses(conn, account_id):
+    cur = conn.cursor()
+    cur.execute("SELECT SUM(amount) FROM expenses WHERE account_id = ? AND date >= date('now', '-14 days')", (account_id,))
+    return cur.fetchone()[0] or 0  # Return the sum or 0 if the sum is None
 
-def calculate_monthly_expenses(account_id):
-    # Implementation here
+def calculate_monthly_expenses(conn, account_id):
+    cur = conn.cursor()
+    cur.execute("SELECT SUM(amount) FROM expenses WHERE account_id = ? AND date >= date('now', '-30 days')", (account_id,))
+    return cur.fetchone()[0] or 0  # Return the sum or 0 if the sum is None
 
-def calculate_yearly_expenses(account_id):
-    # Implementation here
+def calculate_yearly_expenses(conn, account_id):
+    cur = conn.cursor()
+    cur.execute("SELECT SUM(amount) FROM expenses WHERE account_id = ? AND date >= date('now', '-365 days')", (account_id,))
+    return cur.fetchone()[0] or 0  # Return the sum or 0 if the sum is None
 
 def calculate_next_expense_date(last_expense_date, frequency):
-    # Implementation here
+    if frequency == "weekly":
+        return last_expense_date + datetime.timedelta(weeks=1)
+    elif frequency == "biweekly":
+        return last_expense_date + datetime.timedelta(weeks=2)
+    elif frequency == "monthly":
+        return last_expense_date + datetime.timedelta(days=30)  # Approximate a month as 30 days
+    else:
+        raise ValueError("Invalid frequency. Expected 'weekly', 'biweekly', or 'monthly'.")
 
-def update_expense_dates(account_id, previous_date, current_date, next_date):
-    # Implementation here
+def update_expense_dates(conn, account_id, previous_date, current_date, next_date):
+    sql = ''' UPDATE expenses
+              SET previous_date = ?,
+                  current_date = ?,
+                  next_date = ?
+              WHERE account_id = ?'''
+    cur = conn.cursor()
+    cur.execute(sql, (previous_date, current_date, next_date, account_id))
+    conn.commit()
 
-def sort_transactions(field):
-    # Implementation here
-
+def sort_transactions(conn, field):
+    cur = conn.cursor()
+    cur.execute(f"SELECT * FROM transactions ORDER BY {field}")
+    return cur.fetchall()
 
 def main():
     database = r"money.db"
