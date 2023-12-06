@@ -1,4 +1,3 @@
-# make a file for displaying and interacting with everything in money.py and the various accounts, transactions, expenses, and income.pyimport money
 from util import accounts, transactions, expenses, income
 import money 
 
